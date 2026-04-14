@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>小朋友学习乐园</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- 首页 -->
+  <div id="home-page" class="page active">
+    <h1>📚 小朋友学习乐园</h1>
+    <div class="menu-grid">
+      <button class="menu-card" onclick="showPage('literacy')">
+        <div class="icon">👶</div>
+        <div class="title">识字</div>
+        <div class="desc">四五快读</div>
+      </button>
+      <button class="menu-card" onclick="showPage('english')">
+        <div class="icon">🅰️</div>
+        <div class="title">英语</div>
+        <div class="desc">自然拼读</div>
+      </button>
+      <button class="menu-card" onclick="showPage('math')">
+        <div class="icon">🔢</div>
+        <div class="title">算术</div>
+        <div class="desc">数学练习</div>
+      </button>
+    </div>
+    <footer class="footer">
+      <p>点击图标开始学习 • 点击文字即可发音</p>
+    </footer>
+  </div>
+
+  <!-- 识字页面 -->
+  <div id="literacy-page" class="page">
+    <div class="header">
+      <button class="back-btn" onclick="showPage('home')">← 返回</button>
+      <h2>识字练习</h2>
+      <button class="settings-btn" onclick="toggleWordEditor">✏️ 编辑</button>
+    </div>
+
+    <!-- 汉字编辑区域 -->
+    <div id="word-editor" class="editor-panel hidden">
+      <h3>添加/编辑汉字</h3>
+      <p class="hint">输入汉字，每个汉字一行：</p>
+      <textarea id="word-textarea" placeholder="一\n二\n三\n上\n中..."></textarea>
+      <div class="btn-group">
+        <button class="btn btn-secondary" onclick="resetWords">清空</button>
+        <button class="btn btn-primary" onclick="saveWords">保存</button>
+      </div>
+    </div>
+
+    <!-- 识字练习区域 -->
+    <div class="practice-area">
+      <div id="char-grid" class="character-grid">
+        <!-- 汉字卡片动态生成 -->
+      </div>
+    </div>
+  </div>
+
+  <!-- 英语页面 -->
+  <div id="english-page" class="page">
+    <div class="header">
+      <button class="back-btn" onclick="showPage('home')">← 返回</button>
+      <h2>英语拼读</h2>
+      <button class="settings-btn" onclick="toggleWordEditorEn">✏️ 编辑单词</button>
+    </div>
+
+    <!-- 分类选择 -->
+    <div class="category-select">
+      <button class="cat-btn active" data-category="alphabet" onclick="selectCategory('alphabet')">字母</button>
+      <button class="cat-btn" data-category="vowel-single" onclick="selectCategory('vowel-single')">元音(单)</button>
+      <button class="cat-btn" data-category="vowel-double" onclick="selectCategory('vowel-double')">元音(双)</button>
+      <button class="cat-btn" data-category="words" onclick="selectCategory('words')">单词</button>
+    </div>
+
+    <!-- 单词编辑区域 -->
+    <div id="word-editor-en" class="editor-panel hidden">
+      <h3>添加自定义单词</h3>
+      <p class="hint">格式：单词 音标/发音（每行一个）</p>
+      <textarea id="word-textarea-en" placeholder="cat 猫\ndog 狗\napple 苹果"></textarea>
+      <div class="btn-group">
+        <button class="btn btn-secondary" onclick="resetWordsEn">清空</button>
+        <button class="btn btn-primary" onclick="saveWordsEn">保存</button>
+      </div>
+    </div>
+
+    <!-- 英语卡片区域 -->
+    <div class="practice-area">
+      <div id="english-grid" class="english-grid">
+        <!-- 英语卡片动态生成 -->
+      </div>
+    </div>
+  </div>
+
+  <!-- 算术页面 -->
+  <div id="math-page" class="page">
+    <div class="header">
+      <button class="back-btn" onclick="showPage('home')">← 返回</button>
+      <h2>算术练习</h2>
+    </div>
+
+    <!-- 设置区域 -->
+    <div class="math-settings">
+      <div class="setting-row">
+        <label>运算类型：</label>
+        <div class="option-group">
+          <label><input type="checkbox" value="+" checked onchange="updateMathSettings()"> 加法</label>
+          <label><input type="checkbox" value="-" checked onchange="updateMathSettings()"> 减法</label>
+          <label><input type="checkbox" value="×" onchange="updateMathSettings()"> 乘法</label>
+          <label><input type="checkbox" value="÷" onchange="updateMathSettings()"> 除法</label>
+        </div>
+      </div>
+      <div class="setting-row">
+        <label>数字范围：</label>
+        <div class="option-group">
+          <label><input type="radio" name="range" value="20" checked onchange="updateMathSettings()"> 20以内</label>
+          <label><input type="radio" name="range" value="50" onchange="updateMathSettings()"> 50以内</label>
+          <label><input type="radio" name="range" value="100" onchange="updateMathSettings()"> 100以内</label>
+        </div>
+      </div>
+      <div class="setting-row">
+        <label>题型：</label>
+        <div class="option-group">
+          <label><input type="radio" name="type" value="choice" checked onchange="updateMathSettings()"> 选择题</label>
+          <label><input type="radio" name="type" value="fill" onchange="updateMathSettings()"> 填空题</label>
+        </div>
+      </div>
+      <button class="btn btn-primary" onclick="generateMathQuestion">新题目</button>
+    </div>
+
+    <!-- 算术题目区域 -->
+    <div class="math-practice">
+      <div id="math-question" class="math-question">
+        <!-- 题目动态生成 -->
+      </div>
+      <div id="math-feedback" class="math-feedback"></div>
+    </div>
+  </div>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
