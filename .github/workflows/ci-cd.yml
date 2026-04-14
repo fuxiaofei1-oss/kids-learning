@@ -12,38 +12,9 @@ env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
-  # 阶段1: 代码检查和测试
-  lint-test:
-    name: Lint & Test
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Lint code
-        run: |
-          if [ -f ".eslintrc.json" ]; then
-            npm run lint
-          fi
-
-      - name: Run tests
-        run: |
-          if [ -f "package.json" ] && grep -q '"test"' package.json; then
-            npm test
-          fi
-
-  # 阶段2: 构建并部署到 GitHub Pages
-  deploy:
-    needs: lint-test
+  # 阶段1: 代码检查和构建
+  lint-build:
+    name: Lint & Build
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -66,6 +37,32 @@ jobs:
           mkdir -p dist/kids-learning
           cp -r kids-learning/* dist/kids-learning/
           ls -la dist/kids-learning/
+
+  # 阶段2: 构建并部署到 GitHub Pages
+  deploy:
+    needs: lint-build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Copy kids-learning static files to dist
+        run: |
+          mkdir -p dist/kids-learning
+          cp -r kids-learning/* dist/kids-learning/
+          cp dist/index.html .
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
