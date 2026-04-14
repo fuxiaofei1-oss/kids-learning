@@ -291,9 +291,9 @@ function checkAnswer(userAnswer) {
   questionsAnswered++;
   if (userAnswer === currentAnswer) {
     currentScore += mathConfig.pointsPerQuestion;
-    feedback.textContent = `🎉 答对了！现在得分: ${currentScore}/${questionsAnswered * mathConfig.pointsPerQuestion}`;
+    feedback.textContent = `🎉 Correct! Current score: ${currentScore}/${questionsAnswered * mathConfig.pointsPerQuestion}`;
     feedback.className = 'math-feedback correct';
-    speak('太棒了！答对了！');
+    speak('Great job! Correct!');
     
     // 检查是否已经答完20题
     if (questionsAnswered >= mathConfig.questionsPerRound) {
@@ -307,9 +307,9 @@ function checkAnswer(userAnswer) {
       }, 1500);
     }
   } else {
-    feedback.textContent = `❌ 再试一次！当前得分: ${currentScore}/${questionsAnswered * mathConfig.pointsPerQuestion}`;
+    feedback.textContent = `❌ Try again! Current score: ${currentScore}/${questionsAnswered * mathConfig.pointsPerQuestion}`;
     feedback.className = 'math-feedback wrong';
-    speak('不对哦，再想想');
+    speak('Try again! Think it over');
   }
 }
 
@@ -318,12 +318,12 @@ function showResult() {
   const percentage = Math.round((currentScore / (mathConfig.questionsPerRound * mathConfig.pointsPerQuestion)) * 100);
   const html = `
     <div class="result-page">
-      <h2>📊 答题完成！</h2>
+      <h2>🎉 Game Complete!</h2>
       <div class="result-score">
-        总分: <strong>${currentScore}</strong> / ${mathConfig.questionsPerRound * mathConfig.pointsPerQuestion}
+        Total Score: <strong>${currentScore}</strong> / ${mathConfig.questionsPerRound * mathConfig.pointsPerQuestion}
       </div>
-      <div class="result-percentage">正确率: ${percentage}%</div>
-      <button class="restart-btn" onclick="startNewRound()">再来一局</button>
+      <div class="result-percentage">Accuracy: ${percentage}%</div>
+      <button class="restart-btn" onclick="startNewRound()">Play Again</button>
     </div>
   `;
   container.innerHTML = html;
