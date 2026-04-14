@@ -6,12 +6,6 @@ export default defineConfig({
     outDir: 'dist',
     assetsDir: 'assets',
     sourcemap: true,
-    emptyOutDir: true,
-    rollupOptions: {
-      input: {
-        main: './index.html',
-        kids: './kids-learning/index.html'
-      }
-    }
+    emptyOutDir: true
   }
 })

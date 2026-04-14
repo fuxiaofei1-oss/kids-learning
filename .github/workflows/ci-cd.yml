@@ -64,9 +64,8 @@ jobs:
       - name: Copy kids-learning static files to dist
         run: |
           mkdir -p dist/kids-learning
-          cp kids-learning/*.html dist/kids-learning/
-          cp kids-learning/*.css dist/kids-learning/
-          cp kids-learning/*.js dist/kids-learning/
+          cp -r kids-learning/* dist/kids-learning/
+          ls -la dist/kids-learning/
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
