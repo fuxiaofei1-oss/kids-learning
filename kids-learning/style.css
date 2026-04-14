@@ -408,6 +408,43 @@ body {
   color: #e74c3c;
 }
 
+/* 结算页面 */
+.result-page {
+  padding: 20px;
+}
+
+.result-page h2 {
+  color: #2c3e50;
+  font-size: 2em;
+  margin-bottom: 30px;
+}
+
+.result-score {
+  font-size: 1.8em;
+  color: #2c3e50;
+  margin-bottom: 15px;
+}
+
+.result-score strong {
+  color: #e74c3c;
+}
+
+.result-percentage {
+  font-size: 1.5em;
+  color: #3498db;
+  margin-bottom: 30px;
+}
+
+.restart-btn {
+  background: #2ecc71;
+  color: white;
+  border: none;
+  padding: 15px 40px;
+  border-radius: 12px;
+  font-size: 1.3em;
+  cursor: pointer;
+}
+
 /* iPad 适配 */
 @media (min-width: 768px) and (max-width: 1024px) {
   .character-grid {
