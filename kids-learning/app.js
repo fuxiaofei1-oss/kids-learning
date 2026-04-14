@@ -176,10 +176,14 @@ document.getElementById('word-textarea-en').value =
 let mathConfig = {
   operations: ['+', '-'],
   range: 20,
-  type: 'choice'
+  type: 'choice',
+  questionsPerRound: 20,
+  pointsPerQuestion: 10
 };
 
 let currentAnswer = 0;
+let currentScore = 0;
+let questionsAnswered = 0;
 
 function updateMathSettings() {
   // 获取选中的运算符
@@ -284,18 +288,51 @@ function checkAnswer(userAnswer) {
     }
   });
   
+  questionsAnswered++;
   if (userAnswer === currentAnswer) {
-    feedback.textContent = '🎉 答对了！真棒！';
+    currentScore += mathConfig.pointsPerQuestion;
+    feedback.textContent = `🎉 答对了！现在得分: ${currentScore}/${questionsAnswered * mathConfig.pointsPerQuestion}`;
     feedback.className = 'math-feedback correct';
     speak('太棒了！答对了！');
-    setTimeout(() => {
-      generateMathQuestion();
-    }, 1500);
+    
+    // 检查是否已经答完20题
+    if (questionsAnswered >= mathConfig.questionsPerRound) {
+      // 总分结算
+      setTimeout(() => {
+        showResult();
+      }, 1000);
+    } else {
+      setTimeout(() => {
+        generateMathQuestion();
+      }, 1500);
+    }
   } else {
-    feedback.textContent = '❌ 再试一次吧！';
+    feedback.textContent = `❌ 再试一次！当前得分: ${currentScore}/${questionsAnswered * mathConfig.pointsPerQuestion}`;
     feedback.className = 'math-feedback wrong';
     speak('不对哦，再想想');
   }
+}
+
+function showResult() {
+  const container = document.getElementById('math-question');
+  const percentage = Math.round((currentScore / (mathConfig.questionsPerRound * mathConfig.pointsPerQuestion)) * 100);
+  const html = `
+    <div class="result-page">
+      <h2>📊 答题完成！</h2>
+      <div class="result-score">
+        总分: <strong>${currentScore}</strong> / ${mathConfig.questionsPerRound * mathConfig.pointsPerQuestion}
+      </div>
+      <div class="result-percentage">正确率: ${percentage}%</div>
+      <button class="restart-btn" onclick="startNewRound()">再来一局</button>
+    </div>
+  `;
+  container.innerHTML = html;
+}
+
+function startNewRound() {
+  currentScore = 0;
+  questionsAnswered = 0;
+  generateMathQuestion();
 }
 
 function checkFillAnswer() {
